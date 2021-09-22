@@ -37,6 +37,12 @@ TARGET_BOARD_SUFFIX := _64
 TARGET_BOOTLOADER_BOARD_NAME := MSM8937
 TARGET_NO_BOOTLOADER := true
 
+# File systems
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+TW_INCLUDE_FUSE_EXFAT := true # exFAT support
+TW_INCLUDE_FUSE_NTFS := true # NTFS support
+
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=30 msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlycon=msm_hsl_uart,0x78B0000 vmalloc=400M androidboot.selinux=permissive
@@ -47,10 +53,10 @@ BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_ARCH := arm64
+BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_PATH)/mkbootimg.mk
 ifneq ($(WITH_KERNEL_SOURCE),true)
 TARGET_PREBUILT_DTB := $(LOCAL_PATH)/prebuilt/dt.img
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/Image.gz-dtb
-BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 else
 TARGET_KERNEL_CONFIG := jeter_defconfig
 TARGET_KERNEL_SOURCE := kernel/motorola/msm8937
@@ -69,33 +75,22 @@ BOARD_VENDORIMAGE_PARTITION_SIZE := 419430400
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 
-# Recovery
-BOARD_HAS_NO_SELECT_BUTTON := true
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
-
-# LZMA
-LZMA_RAMDISK_TARGETS := recovery
-LZMA_COMPRESSION := -9
-
 # Qualcomm support
 BOARD_USES_QCOM_HARDWARE := true
 
-# TWRP Configuration
-#TW_EXTRA_LANGUAGES := true
-TW_THEME := portrait_hdpi
-TW_HAS_EDL_MODE := true
-TW_USE_TOOLBOX := true
-TW_INCLUDE_FUSE_EXFAT := true
-TW_INCLUDE_FUSE_NTFS := true
-TW_INPUT_BLACKLIST := "hbtp_vm"
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/root/etc/twrp.fstab
+# Recovery
+RECOVERY_SDCARD_ON_DATA := true
+BOARD_SUPPRESS_SECURE_ERASE := true
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/etc/twrp.fstab
+LZMA_RAMDISK_TARGETS := recovery
 
-# log
-#TWRP_INCLUDE_LOGCAT := true
-#TARGET_USES_LOGD := true
+# TWRP
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TARGET_RECOVERY_PIXEL_FORMAT := RGB_565
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+TW_NEW_ION_HEAP := true
 TW_EXCLUDE_TWRPAPP := true
 TW_EXCLUDE_SUPERSU := true
 TW_EXCLUDE_ENCRYPTED_BACKUPS := true
 TW_EXCLUDE_NANO := true
-
+TW_THEME := portrait_hdpi
