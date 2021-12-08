@@ -15,8 +15,7 @@
 #
 
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/omni_jeter.mk \
-	$(LOCAL_DIR)/full_jeter.mk
+	$(LOCAL_DIR)/omni_jeter.mk
 
 COMMON_LUNCH_CHOICES := \
     omni_jeter-eng
